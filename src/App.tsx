@@ -8,10 +8,11 @@ import Analytics from './pages/Analytics';
 import QRScanner from './pages/QRScanner';
 import Notifications from './pages/Notifications';
 import StudentProfile from './pages/StudentProfile';
+import SchoolCalendar from './pages/SchoolCalendar';
 import { clearToken } from './api';
 
 type Role = 'admin' | 'principal' | 'scanner';
-type Page = 'dashboard' | 'students' | 'analytics' | 'scanner' | 'notifications' | 'studentprofile';
+type Page = 'dashboard' | 'students' | 'analytics' | 'scanner' | 'notifications' | 'studentprofile' | 'calendar';
 
 const NAV_ITEMS: {
   page: Page;
@@ -20,21 +21,23 @@ const NAV_ITEMS: {
   roles: Role[];
   badge?: number;
 }[] = [
-  { page: 'dashboard',     icon: '📊', label: 'Dashboard',     roles: ['admin', 'principal'] },
-  { page: 'scanner',       icon: '📱', label: 'QR Scanner',    roles: ['admin', 'scanner'] },
-  { page: 'students',      icon: '🎒', label: 'Students',      roles: ['admin'] },
-  { page: 'analytics',     icon: '📈', label: 'Analytics',     roles: ['admin', 'principal'] },
-  { page: 'notifications',   icon: '🔔', label: 'Notifications',    roles: ['admin', 'principal'] },
-  { page: 'studentprofile', icon: '👤', label: 'Student Profiles',  roles: ['admin', 'principal'] },
+  { page: 'dashboard',      icon: '📊', label: 'Dashboard',        roles: ['admin', 'principal'] },
+  { page: 'scanner',        icon: '📱', label: 'QR Scanner',       roles: ['admin', 'scanner'] },
+  { page: 'students',       icon: '🎒', label: 'Students',         roles: ['admin'] },
+  { page: 'analytics',      icon: '📈', label: 'Analytics',        roles: ['admin', 'principal'] },
+  { page: 'notifications',  icon: '🔔', label: 'Notifications',    roles: ['admin', 'principal'] },
+  { page: 'studentprofile', icon: '👤', label: 'Student Profiles', roles: ['admin', 'principal'] },
+  { page: 'calendar',       icon: '📅', label: 'School Calendar',  roles: ['admin'] },
 ];
 
 const PAGE_TITLES: Record<Page, { title: string; subtitle: string }> = {
-  dashboard:     { title: 'Dashboard',          subtitle: 'Live school attendance overview' },
-  scanner:       { title: 'QR Scanner',         subtitle: 'Scan student arrival & departure' },
-  students:      { title: 'Student Directory',  subtitle: 'Manage students and QR codes' },
-  analytics:     { title: 'Analytics',          subtitle: 'Trends, reports and insights' },
-  notifications:   { title: 'Notifications',      subtitle: 'Parent alerts and system logs' },
+  dashboard:      { title: 'Dashboard',          subtitle: 'Live school attendance overview' },
+  scanner:        { title: 'QR Scanner',         subtitle: 'Scan student arrival & departure' },
+  students:       { title: 'Student Directory',  subtitle: 'Manage students and QR codes' },
+  analytics:      { title: 'Analytics',          subtitle: 'Trends, reports and insights' },
+  notifications:  { title: 'Notifications',      subtitle: 'Parent alerts and system logs' },
   studentprofile: { title: 'Student Profiles',   subtitle: 'Deep-dive attendance analysis per student' },
+  calendar:       { title: 'School Calendar',    subtitle: 'Manage holidays and school working days' },
 };
 
 const ROLE_LABELS: Record<Role, string> = {
@@ -44,10 +47,10 @@ const ROLE_LABELS: Record<Role, string> = {
 };
 
 export default function App() {
-  const [view, setView]       = useState<'landing' | 'login' | 'app'>('landing');
-  const [role, setRole]       = useState<Role>('admin');
+  const [view, setView]         = useState<'landing' | 'login' | 'app'>('landing');
+  const [role, setRole]         = useState<Role>('admin');
   const [fullName, setFullName] = useState('');
-  const [page, setPage]       = useState<Page>('dashboard');
+  const [page, setPage]         = useState<Page>('dashboard');
 
   const handleLogin = (r: Role, name: string) => {
     setRole(r);
@@ -159,12 +162,13 @@ export default function App() {
         </header>
 
         {/* Page content */}
-        {page === 'dashboard'     && <Dashboard />}
-        {page === 'scanner'       && <QRScanner />}
-        {page === 'students'      && <Students />}
-        {page === 'analytics'     && <Analytics />}
-        {page === 'notifications'   && <Notifications />}
+        {page === 'dashboard'      && <Dashboard />}
+        {page === 'scanner'        && <QRScanner />}
+        {page === 'students'       && <Students />}
+        {page === 'analytics'      && <Analytics />}
+        {page === 'notifications'  && <Notifications />}
         {page === 'studentprofile' && <StudentProfile />}
+        {page === 'calendar'       && <SchoolCalendar />}
       </main>
     </div>
   );
